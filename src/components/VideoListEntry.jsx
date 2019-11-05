@@ -1,10 +1,10 @@
-var VideoListEntry = ({video}) => (
+var VideoListEntry = ({video, handleClick}) => (
   <div className="video-list-entry media">
     <div className="media-left media-middle">
       <img className="media-object" src={video.snippet.thumbnails.default.url} alt={video.snippet.title} />
     </div>
     <div className="media-body">
-      <div className="video-list-entry-title">{video.snippet.title}</div>
+      <div onClick={() => handleClick(video)} className="video-list-entry-title">{video.snippet.title}</div>
       <div className="video-list-entry-detail">{video.snippet.description}</div>
     </div>
   </div>
