@@ -1,6 +1,7 @@
 import VideoList from './VideoList.js';
 import videos from '../data/exampleVideoData.js';
 import VideoPlayer from './VideoPlayer.js';
+import key from '../config/youtube.js';
 
 console.log('Videos: ', videos);
 
