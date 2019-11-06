@@ -1,7 +1,9 @@
 import VideoList from './VideoList.js';
-import videos from '../data/exampleVideoData.js';
+import Search from './Search.js';
 import VideoPlayer from './VideoPlayer.js';
 import key from '../config/youtube.js';
+// Seed Data:
+// import videos from '../data/exampleVideoData.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,11 +22,28 @@ class App extends React.Component {
       videos: []
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.debouncedRequest = _.debounce(input => this.makeRequest.call(this, input), 500);
   }
 
   componentDidMount() {
     var options = {
       query: 'react',
+      max: 5,
+      key
+    };
+    this.props.searchYouTube(options, videos => {
+      this.setState({
+        currentVideo: videos[0],
+        videos
+      });
+    });
+  }
+
+  makeRequest(input) {
+    console.log('Input: ', input);
+    var options = {
+      query: input,
       max: 5,
       key
     };
@@ -43,12 +62,16 @@ class App extends React.Component {
     });
   }
 
+  handleChange(input) {
+    this.debouncedRequest(input);
+  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <Search handleChange={this.handleChange}/>
           </div>
         </nav>
         <div className="row">
