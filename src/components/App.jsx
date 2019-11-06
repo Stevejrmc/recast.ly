@@ -3,16 +3,37 @@ import videos from '../data/exampleVideoData.js';
 import VideoPlayer from './VideoPlayer.js';
 import key from '../config/youtube.js';
 
-console.log('Videos: ', videos);
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: videos[0],
-      videos: videos
+      currentVideo: {
+        id: {videoId: ''},
+        snippet: {
+          title: '',
+          description: '',
+          thumbnails: {
+            default: {url: ''}
+          }
+        }
+      },
+      videos: []
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    var options = {
+      query: 'react',
+      max: 5,
+      key
+    };
+    this.props.searchYouTube(options, videos => {
+      this.setState({
+        currentVideo: videos[0],
+        videos
+      });
+    });
   }
 
   handleClick(video) {
